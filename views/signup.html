@@ -6,11 +6,12 @@
     <title>Document</title>
   </head>
   <body>
-    <form>
-        <label for="">Username</label>
-        <input type="text" />
-        <label for="">Password</label>
-        <input type="text" />
+    <form action="/signup" method="post">
+      <label>Username</label>
+      <input type="text" name="username" />
+      <label>Password</label>
+      <input type="text" name="password" />
+      <button type="submit">Create account</button>
     </form>
   </body>
 </html>
