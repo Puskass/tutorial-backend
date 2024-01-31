@@ -1,5 +1,7 @@
 [
-  { "title": "tea", "price": "2" },
-  { "title": "tswasf", "price": "23" },
-  { "title": "test", "price": "24" }
+  {
+    "id": "1208cb75-7111-4bc3-8e3d-137c9027f5c2",
+    "title": "Casa",
+    "price": "3"
+  }
 ]
