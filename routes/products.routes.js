@@ -21,6 +21,9 @@ router.get("/products/:id", (req, res) => {
 
   fs.readFile(p, (err, products) => {
     const product = JSON.parse(products).find((product) => product.id === id);
+    const error = { message: "Not Found" };
+    
+    if (!product) return res.render("error", { pageTitle: error.title, error });
     res.render("product-detail", { pageTitle: product.title, product });
   });
 });

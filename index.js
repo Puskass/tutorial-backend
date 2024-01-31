@@ -13,4 +13,9 @@ const adminRoutes = require("./routes/admin.routes");
 app.use(productsRoutes);
 app.use(adminRoutes);
 
+app.get("*", (req, res) => {
+  const error = { message: "Not Found" };
+  res.render("error", { pageTitle: error.title, error });
+});
+
 app.listen(5000);
