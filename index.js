@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const { v4 } = require('uuid')
+const { v4 } = require("uuid");
 
 const p = path.join(__dirname, "data", "products.json");
 const app = express();
@@ -11,14 +11,23 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => res.redirect("/products"))
+app.get("/", (req, res) => res.redirect("/products"));
 app.get("/products", (req, res) => {
   fs.readFile(p, (err, products) => {
     res.render("index", {
       pageTitle: "Web Shop",
-      products: JSON.parse(products), 
+      products: JSON.parse(products),
     });
   });
+});
+
+app.get("/products/:id", (req, res) => {
+  const { id } = req.params;
+
+  fs.readFile(p, (err, products) => {
+    const product = JSON.parse(products).find((product) => product.id === id)
+    res.render("product-detail", {pageTitle: product.title, product})
+  })
 });
 
 app.get("/admin/add-product", (req, res) => {
@@ -30,8 +39,8 @@ app.post("/admin/add-product", (req, res) => {
   const product = {
     id: v4(),
     title,
-    price
-  }
+    price,
+  };
 
   fs.readFile(p, (err, products) => {
     const updatedProducts = [product, ...JSON.parse(products)];
