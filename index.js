@@ -9,13 +9,11 @@ app.use(express.urlencoded({ extended: false }));
 
 const productsRoutes = require("./routes/products.routes");
 const adminRoutes = require("./routes/admin.routes");
+const errorControllers = require("./controllers/error.controllers")
 
 app.use(productsRoutes);
 app.use(adminRoutes);
 
-app.get("*", (req, res) => {
-  const error = { message: "Not Found" };
-  res.render("error", { pageTitle: error.title, error });
-});
+app.get("*", errorControllers.get404);
 
 app.listen(5000);

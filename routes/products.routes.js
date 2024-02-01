@@ -5,26 +5,12 @@ const fs = require("fs");
 const p = path.join(__dirname, "..", "data", "products.json");
 const router = express.Router();
 
+const productsControllers = require('../controllers/products.controllers') 
+
 router.get("/", (req, res) => res.redirect("/products"));
 
-router.get("/products", (req, res) => {
-  fs.readFile(p, (err, products) => {
-    res.render("index", {
-      pageTitle: "Web Shop",
-      products: JSON.parse(products),
-    });
-  });
-});
+router.get("/products", productsControllers.getProducts);
 
-router.get("/products/:id", (req, res) => {
-  const { id } = req.params;
+router.get("/products/:id", productsControllers.getProduct);
 
-  fs.readFile(p, (err, products) => {
-    const product = JSON.parse(products).find((product) => product.id === id);
-    const error = { message: "Not Found" };
-    
-    if (!product) return res.render("error", { pageTitle: error.title, error });
-    res.render("product-detail", { pageTitle: product.title, product });
-  });
-});
 module.exports = router;
