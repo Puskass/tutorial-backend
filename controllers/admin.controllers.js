@@ -1,7 +1,4 @@
-const path = require("path");
-const fs = require("fs");
-const { v4 } = require('uuid')
-const p = path.join(__dirname, "..", "data", "products.json");
+const Product = require("../models/Product");
 
 exports.getAddProduct = (req, res) => {
   res.render("add-product", {
@@ -12,33 +9,25 @@ exports.getAddProduct = (req, res) => {
 
 exports.postAddProduct = (req, res) => {
   const { title, price } = req.body;
-  const product = {
-    id: v4(),
-    title,
-    price,
-  };
 
-  fs.readFile(p, (err, products) => {
-    const updatedProducts = [product, ...JSON.parse(products)];
-    fs.writeFile(p, JSON.stringify(updatedProducts), () => {
-      res.redirect("/");
+  const product = new Product(title, price);
+  product.save();
+  res.redirect("/products");
+};
+
+exports.getProducts = (req, res) => {
+  Product.fetchAll((products) => {
+    res.render("admin-products", {
+      pageTitle: "Admin Products",
+      path: "/admin/products",
+      products: products,
     });
   });
 };
 
-exports.getProducts = (req, res) => {
-    fs.readFile(p, (err, products) => {
-        res.render("admin-products", {
-            pageTitle: "Admin Products",
-            path: "/admin/products",
-            products: JSON.parse(products)
-        })
-    })
-}
-
 exports.getOrders = (req, res) => {
-    res.render("orders", {
-      pageTitle: "Orders",
-      path: "/admin/orders",
-    });
-  };
+  res.render("orders", {
+    pageTitle: "Orders",
+    path: "/admin/orders",
+  });
+};

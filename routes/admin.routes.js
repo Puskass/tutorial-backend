@@ -1,19 +1,15 @@
 const express = require("express");
-const path = require("path");
-const fs = require("fs");
-const { v4 } = require("uuid");
 
-const p = path.join(__dirname, "..", "data", "products.json");
 const router = express.Router();
 
-const adminControllers = require("../controllers/admin.controllers")
+const { getAddProduct, postAddProduct, getProducts, getOrders } = require("../controllers/admin.controllers")
 
-router.get("/admin/add-product", adminControllers.getAddProduct);
+router.get("/admin/add-product", getAddProduct);
 
-router.post("/admin/add-product", adminControllers.postAddProduct);
+router.post("/admin/add-product", postAddProduct);
 
-router.get("/admin/products", adminControllers.getProducts)
+router.get("/admin/products", getProducts)
 
-router.get("/admin/orders", adminControllers.postAddProduct)
+router.get("/admin/orders", getOrders)
 
 module.exports = router;
